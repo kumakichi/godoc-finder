@@ -1,6 +1,10 @@
 #!/bin/bash
 
-DB=PKG.db
+DB_FILE=PKG.db
+
+realscript=$(readlink ${BASH_SOURCE})
+prog_path=${realscript%/*}
+DB=${prog_path}/${DB_FILE}
 
 if [ ! -f $DB ]
 then
