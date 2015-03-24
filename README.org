@@ -3,16 +3,16 @@
   This repository is used to find standard pkg name for specified function name or type name.
 
 	#+BEGIN_SRC sh
-	$search.sh make
-	funcs and types of 'make' :
-	
-	MakeTable hash/crc64
-	MakeTable hash/crc32
-	make builtin
-	MakeChan reflect
-	MakeFunc reflect
-	MakeMap reflect
-	MakeSlice reflect
+$search.sh make
+funcs and types of 'make' :
+
+MakeTable hash/crc64
+MakeTable hash/crc32
+make builtin
+MakeChan reflect
+MakeFunc reflect
+MakeMap reflect
+MakeSlice reflect
 	#+END_SRC
 
   Only tested under Linux,using Bash,GNU awk,GNU grep
@@ -29,12 +29,12 @@
 
    now, use it:
    #+BEGIN_SRC sh
-   $search.sh abs
-	funcs and types of 'abs' :
-	
-	Abs math
-	Abs math/cmplx
-	IsAbs path
-	Abs path/filepath
-	IsAbs path/filepath
+$search.sh abs
+funcs and types of 'abs' :
+
+Abs math
+Abs math/cmplx
+IsAbs path
+Abs path/filepath
+IsAbs path/filepath
    #+END_SRC
