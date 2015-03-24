@@ -18,6 +18,6 @@ name=$1
 
 if [ $# -eq 1 ]
 then
-    echo -e "func and types of '$name' :\n"
+    echo -e "funcs and types of '$name' :\n"
     grep -i -E [A-Za-z]*$name.* $DB | awk '{print $1,$3}'
 fi
