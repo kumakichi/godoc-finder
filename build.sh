@@ -8,6 +8,12 @@ function funs()
     godoc $pkg | awk -v p=${pkg} -F'[ (]' '/^func /{if(length($2)>1)print $2,"=func=",p}' >>$DB
 }
 
+function methods()
+{
+    pkg=$1
+    godoc $pkg | awk -F ')' '/^func \(/{if(NF==3)print $2}' | awk -v p=${pkg} -F'[ (]' '{print $2,"=func=",p}' >>$DB
+}
+
 function types()
 {
     pkg=$1
@@ -26,4 +32,5 @@ do
     echo $each
     funs $each
     types $each
+    methods $each
 done
