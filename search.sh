@@ -19,7 +19,7 @@ fi
 
 if [ $# -lt 1 ]
 then
-    echo "Usage: $0 name(ignore case), only support type and func currently"
+    echo "Usage: $0 name(ignore case), support type, func and method currently"
     exit
 fi
 
@@ -27,6 +27,6 @@ name=$1
 
 if [ $# -eq 1 ]
 then
-    echo -e "funcs and types of '$name' :\n"
+    echo -e "funcs/types/methods of '$name' :\n"
     grep -i -E ^[A-Za-z]*$name.* $DB | awk '{print $1,$3}'
 fi
