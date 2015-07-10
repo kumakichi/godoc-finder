@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DB_FILE=PKG.db
+caseSensitive=0
 
 realscript=$(readlink ${BASH_SOURCE}) # soft link
 if [ "$realscript" = "" ]
@@ -17,16 +18,32 @@ then
     exit
 fi
 
+while getopts "s" o; do
+    case "${o}" in
+        s)
+            caseSensitive=1
+            ;;
+        *)
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
 if [ $# -lt 1 ]
 then
-    echo "Usage: $0 name(ignore case), support type, func and method currently"
+    echo "Usage: $0 [-s] symbolName"
+    echo "support type, func and method currently"
+    echo "-s if specified, symbolName case sensitive"
+	
     exit
 fi
 
-name=$1
+symbolName=$1
 
-if [ $# -eq 1 ]
+
+if [ $caseSensitive -eq 1 ]
 then
-    echo -e "funcs/types/methods of '$name' :\n"
-    grep -i -E ^[A-Za-z]*$name.* $DB | awk '{print $1,$3,"[",$2,"]:: godoc "$3,$1}'
+	grep -E ^[A-Za-z]*$symbolName* $DB | awk '{print $1,$3,"[",$2,"]:: godoc "$3,$1}'
+else
+	grep -i -E ^[A-Za-z]*$symbolName* $DB | awk '{print $1,$3,"[",$2,"]:: godoc "$3,$1}'
 fi
