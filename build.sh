@@ -6,19 +6,19 @@ TMPDB=tmp.PKG.db
 function funs()
 {
     pkg=$1
-    godoc $pkg | awk -v p=${pkg} -F'[ (]' '/^func /{if(length($2)>1)print $2,"=func=",p}' >>$TMPDB
+    godoc $pkg | awk -v p=${pkg} -F'[ (]' '/^func /{if(length($2)>1)print $2,"function",p}' >>$TMPDB
 }
 
 function methods()
 {
     pkg=$1
-    godoc $pkg | awk -F ')' '/^func \(/{if(NF==3)print $2}' | awk -v p=${pkg} -F'[ (]' '{print $2,"=func=",p}' >>$TMPDB
+    godoc $pkg | awk -F ')' '/^func \(/{if(NF>2)print $2}' | awk -v p=${pkg} -F'[ (]' '{print $2,"method",p}' >>$TMPDB
 }
 
 function types()
 {
     pkg=$1
-    godoc $pkg | awk -v p=${pkg} '/^type /{print $2,"=type=",p}' >>$TMPDB
+    godoc $pkg | awk -v p=${pkg} '/^type /{print $2,"type",p}' >>$TMPDB
 }
 
 if [ "$GOROOT" = "" ]

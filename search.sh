@@ -28,5 +28,5 @@ name=$1
 if [ $# -eq 1 ]
 then
     echo -e "funcs/types/methods of '$name' :\n"
-    grep -i -E ^[A-Za-z]*$name.* $DB | awk '{print $1,$3,"[godoc "$3,$1"]"}'
+    grep -i -E ^[A-Za-z]*$name.* $DB | awk '{print $1,$3,"[",$2,"]:: godoc "$3,$1}'
 fi
