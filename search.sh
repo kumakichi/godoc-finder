@@ -3,6 +3,7 @@
 DB_FILE=PKG.db
 caseSensitive=0
 showTypes="all" #all types
+pkgName=""
 
 realscript=$(readlink ${BASH_SOURCE}) # soft link
 if [ "$realscript" = "" ]
@@ -19,7 +20,7 @@ then
     exit
 fi
 
-while getopts "st:" o; do
+while getopts "st:p:" o; do
     case "${o}" in
         s)
             caseSensitive=1
@@ -36,6 +37,9 @@ while getopts "st:" o; do
 		    showTypes="type"
             fi
             ;;
+        p)
+            pkgName=${OPTARG}
+            ;;
         *)
             echo "Invalid option, prog will exit not"
             exit
@@ -48,6 +52,7 @@ if [ $# -lt 1 ]
 then
     echo "Usage: $0 [-s] [-t f/t/m] symbolName"
     echo "-s if specified, symbolName case sensitive"
+    echo "-p search only the specified package name"
     echo "-t f/t/m"
     echo "   f -> function"
     echo "   t -> type"
@@ -57,20 +62,29 @@ then
 fi
 
 symbolName=$1
+resultContent=""
 
 if [ $caseSensitive -eq 1 ] # case sensitive
 then
 	if [ $showTypes != "all" ]
 	then
-		grep -E ^[A-Za-z]*$symbolName* $DB | awk -v types=$showTypes '{if($2==types)print $1,$3,":: godoc "$3,$1}'
+		resultContent=$(grep -E ^[A-Za-z]*$symbolName* $DB | awk -v types=$showTypes '{if($2==types)print $1,$3,":: godoc "$3,$1";"}')
 	else
-		grep -E ^[A-Za-z]*$symbolName* $DB | awk '{print $1,$3,"[",$2,"]:: godoc "$3,$1}'
+		resultContent=$(grep -E ^[A-Za-z]*$symbolName* $DB | awk '{print $1,$3,"[",$2,"]:: godoc "$3,$1";"}')
 	fi
 else
 	if [ $showTypes != "all" ]
 	then
-		grep -i -E ^[A-Za-z]*$symbolName* $DB | awk -v types=$showTypes '{if($2==types)print $1,$3,":: godoc "$3,$1}'
+		resultContent=$(grep -i -E ^[A-Za-z]*$symbolName* $DB | awk -v types=$showTypes '{if($2==types)print $1,$3,":: godoc "$3,$1";"}')
 	else
-		grep -i -E ^[A-Za-z]*$symbolName* $DB | awk '{print $1,$3,"[",$2,"]:: godoc "$3,$1}'
+		resultContent=$(grep -i -E ^[A-Za-z]*$symbolName* $DB | awk '{print $1,$3,"[",$2,"]:: godoc "$3,$1";"}')
 	fi
+fi
+
+if [ "$pkgName" != "" ]
+then
+	echo $resultContent | sed -e 's/; /\n/g;s/;/\n/g' | awk -v p=$pkgName '{if($2==p)print $0}' | sed 's/; /\n/g'
+	#echo $resultContent | sed 's/; /\n/g' | awk -v p=$pkgName '{if($2~/p/)print $0}' | sed 's/; /\n/g'
+else
+	echo $resultContent | sed -e 's/; /\n/g;s/;/\n/g'
 fi
