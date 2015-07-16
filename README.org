@@ -3,16 +3,14 @@
   This repository is used to find standard pkg name for specified function name or type name.
 
 	#+BEGIN_SRC sh
-      $search.sh make
-      funcs/types/methods of 'make' :
-      
-      MakeTable hash/crc64
-      MakeTable hash/crc32
-      make builtin
-      MakeChan reflect
-      MakeFunc reflect
-      MakeMap reflect
-      MakeSlice reflect
+      $ ./search.sh make
+      MakeTable hash/crc32 [ function ]:: godoc hash/crc32 MakeTable
+      MakeTable hash/crc64 [ function ]:: godoc hash/crc64 MakeTable
+      MakeChan reflect [ function ]:: godoc reflect MakeChan
+      MakeFunc reflect [ function ]:: godoc reflect MakeFunc
+      MakeMap reflect [ function ]:: godoc reflect MakeMap
+      MakeSlice reflect [ function ]:: godoc reflect MakeSlice
+      make builtin [ function ]:: godoc builtin make
 	#+END_SRC
 
   Only tested under Linux,using Bash,GNU awk,GNU grep
@@ -29,17 +27,17 @@
 
    now, use it:
    #+BEGIN_SRC sh
-     $search.sh abs
-     funcs/types/methods of 'abs' :
-     
-     Abs math
-     Abs math/cmplx
-     IsAbs path
-     Abs path/filepath
-     IsAbs path/filepath
-     
-     $search.sh to4
-     funcs/types/methods of 'to4' :
-     
-     To4 net
+     $ ./search.sh 
+     Usage: ./search.sh [-s] [-t f/t/m] [-p pkgName] symbolName
+     -s if specified, symbolName case sensitive
+     -p search only the specified package name
+     -t f/t/m
+        f -> function
+        t -> type
+        m -> method
+        
+     # search functions in 'path/filepath' whose name contains 'abs'
+     $ ./search.sh -t f -p path/filepath abs
+     Abs path/filepath :: godoc path/filepath Abs
+     IsAbs path/filepath :: godoc path/filepath IsAbs
    #+END_SRC

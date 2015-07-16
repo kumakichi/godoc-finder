@@ -50,7 +50,7 @@ shift $((OPTIND-1))
 
 if [ $# -lt 1 ]
 then
-    echo "Usage: $0 [-s] [-t f/t/m] symbolName"
+    echo "Usage: $0 [-s] [-t f/t/m] [-p pkgName] symbolName"
     echo "-s if specified, symbolName case sensitive"
     echo "-p search only the specified package name"
     echo "-t f/t/m"
