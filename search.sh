@@ -68,16 +68,16 @@ if [ $caseSensitive -eq 1 ] # case sensitive
 then
 	if [ $showTypes != "all" ]
 	then
-		resultContent=$(grep -E ^[A-Za-z]*$symbolName* $DB | awk -v types=$showTypes '{if($2==types)print $1,$3,":: godoc "$3,$1";"}')
+		resultContent=$(grep -E ^[A-Za-z]*$symbolName $DB | awk -v types=$showTypes '{if($2==types)print $1,$3,":: godoc "$3,$1";"}')
 	else
-		resultContent=$(grep -E ^[A-Za-z]*$symbolName* $DB | awk '{print $1,$3,"[",$2,"]:: godoc "$3,$1";"}')
+		resultContent=$(grep -E ^[A-Za-z]*$symbolName $DB | awk '{print $1,$3,"[",$2,"]:: godoc "$3,$1";"}')
 	fi
 else
 	if [ $showTypes != "all" ]
 	then
-		resultContent=$(grep -i -E ^[A-Za-z]*$symbolName* $DB | awk -v types=$showTypes '{if($2==types)print $1,$3,":: godoc "$3,$1";"}')
+		resultContent=$(grep -i -E ^[A-Za-z]*$symbolName $DB | awk -v types=$showTypes '{if($2==types)print $1,$3,":: godoc "$3,$1";"}')
 	else
-		resultContent=$(grep -i -E ^[A-Za-z]*$symbolName* $DB | awk '{print $1,$3,"[",$2,"]:: godoc "$3,$1";"}')
+		resultContent=$(grep -i -E ^[A-Za-z]*$symbolName $DB | awk '{print $1,$3,"[",$2,"]:: godoc "$3,$1";"}')
 	fi
 fi
 
