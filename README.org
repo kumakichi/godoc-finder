@@ -38,12 +38,16 @@
      -s if specified, symbolName case sensitive
      -p search only the specified package name
      -t f/t/m
-        f -> function
-        t -> type
-        m -> method
-        
+	f -> function
+	t -> type
+	m -> method
+
      # search functions in 'path/filepath' whose name contains 'abs'
      $ ./search.sh -t f -p path/filepath abs
      Abs path/filepath :: godoc path/filepath Abs
      IsAbs path/filepath :: godoc path/filepath IsAbs
+
+     # support pkg name partial match
+     $ ./search.sh -p bui copy
+     copy builtin [ function ]:: godoc builtin copy
    #+END_SRC

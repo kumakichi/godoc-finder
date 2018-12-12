@@ -83,8 +83,8 @@ fi
 
 if [ "$pkgName" != "" ]
 then
-	echo $resultContent | sed -e 's/; /\n/g;s/;/\n/g' | awk -v p=$pkgName '{if($2==p)print $0}' | sed 's/; /\n/g'
-	#echo $resultContent | sed 's/; /\n/g' | awk -v p=$pkgName '{if($2~/p/)print $0}' | sed 's/; /\n/g'
+	#echo $resultContent | sed -e 's/; /\n/g;s/;/\n/g' | awk -v p=$pkgName '{if($2==p)print $0}' | sed 's/; /\n/g'
+	echo $resultContent | sed 's/; /\n/g' | awk -v p=$pkgName '$2~p{print $0}' | sed 's/; /\n/g'
 else
 	echo $resultContent | sed -e 's/; /\n/g;s/;/\n/g'
 fi
